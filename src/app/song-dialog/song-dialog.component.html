@@ -1,0 +1,74 @@
+<h2 mat-dialog-title>
+	Add a song to the playlist
+</h2>
+<mat-dialog-content>
+	<!-- <mat-progress-spinner mode="indeterminate" *ngIf="dataLoading" class="progress-spinner-wrapper"></mat-progress-spinner> -->
+	<div class="">
+
+		<!-- Artists -->
+		<div class="list-container {{displayArtists}}">
+			<mat-form-field class="full-width">
+				<input matInput placeholder="Search or Select a Artist"
+				[(ngModel)]="artistSearchText">
+			</mat-form-field>
+			<div class="list">
+				<mat-selection-list #artistList>
+					<mat-list-option *ngFor="let artist of artists | artistFilter : artistSearchText" [value]="artist">
+						{{artist.artistDescription}}
+					</mat-list-option>
+				</mat-selection-list>
+			</div>  
+		</div>
+
+		<!-- Albums -->
+		<div class="list-container {{displayAlbums}}">
+			<mat-form-field class="full-width">
+				<input matInput placeholder="Search or Select an Album"
+				[(ngModel)]="albumSearchText">
+			</mat-form-field>
+			<div class="list">
+				<mat-selection-list #albumList>
+					<mat-list-option *ngFor="let album of albums | albumFilter : albumSearchText" [value]="album">
+						{{album.albumDescription}}
+					</mat-list-option>
+				</mat-selection-list>
+			</div>  
+		</div>
+
+		<!-- Songs -->
+		<div class="list-container {{displaySongs}}">
+			<mat-form-field class="full-width">
+				<input matInput placeholder="Search or Select a Song"
+				[(ngModel)]="songSearchText">
+			</mat-form-field>
+			<div class="list">
+				<mat-selection-list #songList>
+					<mat-list-option *ngFor="let song of songs | songFilter : songSearchText" [value]="song">
+						{{song.songDescription}}
+					</mat-list-option>
+				</mat-selection-list>
+			</div>  
+		</div>
+
+		<div class="selections">
+			<div class="selection artist" *ngIf="artistSelected">
+				<label> Artist</label>
+				<div class="selection-block" (click)="returnToArtistList()">{{selectedArtist.artistDescription}}</div>
+			</div>
+			<div class="selection album" *ngIf="albumSelected">
+				<label> Album</label>
+				<div class="selection-block" (click)="returnToAlbumList()">{{selectedAlbum.albumDescription}}</div>
+			</div>
+			<div class="selection song" *ngIf="songSelected">
+				<label> Song</label>
+				<div class="selection-block" (click)="returnToSongList()">{{selectedSong.songDescription}}</div>
+			</div>
+		</div>      
+	</div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+	<button mat-button mat-dialog-close>Cancel</button>
+	<button color="primary" mat-button (click)="addSong()" [disabled]="!songSelected">Add Song & Start Another</button>
+	<button color="primary" mat-button mat-dialog-close (click)="addSong()" [disabled]="!songSelected">Add Song & Close</button>
+</mat-dialog-actions>

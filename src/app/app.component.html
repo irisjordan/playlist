@@ -1,21 +1,80 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<header>
+	<div title>
+		Song Playlist
+	</div>
+</header>
+
+<div class="content-area">
+	<mat-card class="bottom-margin">
+		<mat-card-title>Add songs to playlist</mat-card-title>
+		<mat-card-content>
+			<button mat-button class="add-song-button" (click)="openSongModal()">
+				<div class="add-song-icon">
+					<i class="material-icons"></i>
+				</div>
+			</button>
+			
+		</mat-card-content>
+		
+	</mat-card>
+
+	<!-- TABLE -->
+	<div class="mat-elevation-z2 bottom-margin" *ngIf="showSongsTable">
+			<div *ngIf="songsData.selection.selected.length === 0; else deleteHeaderSongs" class="song-table-header">
+				Songs
+			</div>
+			<ng-template #deleteHeaderSongs>
+				<div class="song-table-header delete">
+					<div>{{ songsData.selection.selected.length }} song<span *ngIf="songsData.selection.selected.length > 1">s</span> selected 
+						<button mat-button (click)="removeSong(songsData.selection.selected)">Remove</button>
+					</div> 
+				</div>
+			</ng-template>
+					<mat-table #table [dataSource]="songsData.dataSource">
+				
+					<!-- Checkbox Column -->
+					<ng-container matColumnDef="select">
+						<mat-header-cell *matHeaderCellDef>
+						<mat-checkbox (change)="$event ? masterToggle(songsData.selection, songsData.dataSource) : null"
+										[checked]="songsData.selection.hasValue() && isAllSelected(songsData.selection, songsData.dataSource)"
+										[indeterminate]="songsData.selection.hasValue() && !isAllSelected(songsData.selection, songsData.dataSource)">
+						</mat-checkbox>
+						</mat-header-cell>
+						<mat-cell *matCellDef="let row">
+						<mat-checkbox (click)="$event.stopPropagation()"
+										(change)="$event ? selectRow(songsData.selection, row) : null"
+										[checked]="songsData.selection.isSelected(row)">
+						</mat-checkbox>
+						</mat-cell>
+					</ng-container>
+
+					<!-- Song -->
+					<ng-container matColumnDef="song">
+						<mat-header-cell *matHeaderCellDef> Song </mat-header-cell>
+						<mat-cell *matCellDef="let element"> {{element.songDescription}} </mat-cell>
+					</ng-container>
+
+					<!-- Artist -->
+					<ng-container matColumnDef="artist">
+						<mat-header-cell *matHeaderCellDef> Artist </mat-header-cell>
+						<mat-cell *matCellDef="let element"> {{element.artistDescription}} </mat-cell>
+					</ng-container>
+
+					<!-- Albums -->
+					<ng-container matColumnDef="album">
+						<mat-header-cell *matHeaderCellDef> Album </mat-header-cell>
+						<mat-cell *matCellDef="let element"> {{element.albumDescription}} </mat-cell>
+					</ng-container>
+				
+					<mat-header-row *matHeaderRowDef="songsData.displayColumns"></mat-header-row>
+					<mat-row *matRowDef="let row; columns: songsData.displayColumns;"
+							(click)="songsData.selection.toggle(row)">
+					</mat-row>
+					</mat-table>
+		</div>
+		<!--END TABLE  -->
+	
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+
 
 <router-outlet></router-outlet>

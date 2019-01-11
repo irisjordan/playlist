@@ -1,0 +1,76 @@
+.content-area {
+    margin: 20px;
+}
+
+.mat-card {
+    border-radius: 2px;
+    padding: 20px;
+
+    .mat-card-title {
+        margin-bottom: 20px;
+    }
+}
+
+.bottom-margin {
+    margin-bottom: 20px;
+}
+
+.add-song-button {
+    padding: 0;
+    min-width: 48px;
+}
+
+::ng-deep .song-button.mat-button:hover .mat-button-focus-overlay,
+::ng-deep .song-button.mat-button.cdk-program-focused .mat-button-focus-overlay {
+    opacity: 0 !important;
+}
+
+.add-song-icon {
+    color: #E91E63;
+    width: 48px;
+    height: 48px;
+    align-self: center;
+}
+
+.add-song-icon i:after {
+    font-family: "Material Icons";
+    content: "\E148";
+    font-size: 48px;
+    font-weight: 300;
+}
+
+// Table Styles
+
+.song-table-header {
+    background-color: #fff;
+    min-height: 60px;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 24px 0;
+    font-size: 20px;
+    color: #616161;
+    position: relative;
+
+    &.delete {
+        background-color: #E91E63;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: bold;
+
+        .mat-button {
+            float: right;
+            margin-top: 13px;
+        }
+    }
+
+    [mat-icon-button] {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+}
+
+.mat-column-select {
+    flex: 0 0 70px;
+    overflow: initial;
+}
